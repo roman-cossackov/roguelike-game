@@ -47,7 +47,7 @@ export class Game {
 		for (let i = 0; i < numEnemies; i++) {
 			createGameObject(gameMap, "enemy");
 		}
-		const [charY, charX] = createGameObject(gameMap, "character");
+		let [charY, charX] = createGameObject(gameMap, "character");
 		console.log(charY, charX);
 
 		// Rendering of objects
@@ -71,6 +71,47 @@ export class Game {
 			}
 		};
 
-        renderMap()
+		renderMap();
+
+		// Game process
+		let isRunning = true;
+		let isWin = false;
+
+		document.addEventListener("keydown", function (event) {
+			const key = event.key;
+            
+			if ((key === "w")) {    
+				if (gameMap[charY - 1][charX] === "ground") {
+					gameMap[charY - 1][charX] = "character";
+                    gameMap[charY][charX] = "ground";
+                    [charY, charX] = [charY - 1, charX]
+					renderMap();
+				}
+			}
+            if ((key === "a")) {    
+				if (gameMap[charY][charX - 1] === "ground") {
+					gameMap[charY][charX - 1] = "character";
+                    gameMap[charY][charX] = "ground";
+                    [charY, charX] = [charY, charX - 1]
+					renderMap();
+				}
+			}
+            if ((key === "s")) {    
+				if (gameMap[charY + 1][charX] === "ground") {
+					gameMap[charY + 1][charX] = "character";
+                    gameMap[charY][charX] = "ground";
+                    [charY, charX] = [charY + 1, charX]
+					renderMap();
+				}
+			}
+            if ((key === "d")) {    
+				if (gameMap[charY][charX + 1] === "ground") {
+					gameMap[charY][charX + 1] = "character";
+                    gameMap[charY][charX] = "ground";
+                    [charY, charX] = [charY, charX + 1]
+					renderMap();
+				}
+			}
+		});
 	}
 }
