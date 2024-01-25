@@ -1,4 +1,4 @@
-import { getRandomInt, createRoom } from "./utils.js";
+import { getRandomInt, createRoom, createPassageH, createPassageV } from "./utils.js";
 
 export class Game {
 	init() {
@@ -16,8 +16,16 @@ export class Game {
 			.map(() => new Array(40).fill("wall"));
         
         const numRooms = getRandomInt(5, 10)
+        const numPassagesH = getRandomInt(3, 5)
+        const numPassagesV = getRandomInt(3, 5)
         for (let i = 0; i < numRooms; i++) {
             createRoom(gameMap)
+        }
+        for (let i = 0; i < numPassagesH; i++) {
+            createPassageH(gameMap)
+        }
+        for (let i = 0; i < numPassagesV; i++) {
+            createPassageV(gameMap)
         }
 
         let field = document.getElementsByClassName("field")[0];

@@ -15,4 +15,18 @@ export const createRoom = (gameMap) => {
     }
 };
 
+export const createPassageH = (gameMap) => {
+    const start = getRandomInt(0, 23);
+    for (let i = 0; i < 40; i++) {
+        gameMap[start][i] = "ground";
+    }
+}
+
+export const createPassageV = (gameMap) => {
+    const start = getRandomInt(0, 39);
+    for (let i = 0; i < 24; i++) {
+        gameMap[i][start] = "ground";
+    }
+}
+
 
