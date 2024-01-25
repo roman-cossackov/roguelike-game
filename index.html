@@ -57,7 +57,7 @@
 				width: 25.6px;
 				height: 26.6px;
 				background-size: 100%;
-				background-image: url(images/tile-.png);
+				background-image: url(assets/images/tile-.png);
 				z-index: 5;
 			}
 			.field .tileW {
@@ -109,6 +109,7 @@
 				display: block;
 			}
 		</style>
+		<title>Rogue</title>
 	</head>
 	<body>
 		<h1>Игровое поле</h1>
@@ -116,26 +117,12 @@
 		<div class="cl"></div>
 		<!--h1>Инвентарь</h1>
 		<div class="inventory-box"><div class="inventory"></div></div-->
+		<script type="module">
+			import { Game } from './game.js'
 
-		<script>
-			class Game {
-				init() {
-					const cols = 40;
-					const rows = 24;
-					const gameMap = new Array(rows)
-						.fill()
-						.map(() => new Array(cols).fill(1));
-					let field = document.getElementsByClassName("field")[0];
-					field.innerHTML = "";
-					for (let i = 0; i < rows * cols; i++) {
-						const wall = document.createElement("div");
-						wall.className = "tile tileW";
-						field.appendChild(wall);
-					}
-				}
-			}
-			var game = new Game();
+			const game = new Game();
 			game.init();
+			game.generateGameMap();
 		</script>
 	</body>
 </html>
