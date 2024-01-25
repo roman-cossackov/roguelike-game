@@ -80,7 +80,7 @@ export class Game {
 		document.addEventListener("keydown", function (event) {
 			const key = event.key;
             
-			if ((key === "w" || "ц")) {    
+			if ((key === ("w" || "ц"))) {    
 				if (gameMap[charY - 1][charX] === "ground") {
 					gameMap[charY - 1][charX] = "character";
                     gameMap[charY][charX] = "ground";
@@ -88,7 +88,7 @@ export class Game {
 					renderMap();
 				}
 			}
-            if ((key === "a" || "ф")) {    
+            if ((key === ("a" || "ф"))) {    
 				if (gameMap[charY][charX - 1] === "ground") {
 					gameMap[charY][charX - 1] = "character";
                     gameMap[charY][charX] = "ground";
@@ -96,7 +96,7 @@ export class Game {
 					renderMap();
 				}
 			}
-            if ((key === "s" || "ы")) {    
+            if ((key === ("s" || "ы"))) {    
 				if (gameMap[charY + 1][charX] === "ground") {
 					gameMap[charY + 1][charX] = "character";
                     gameMap[charY][charX] = "ground";
@@ -104,7 +104,7 @@ export class Game {
 					renderMap();
 				}
 			}
-            if ((key === "d" || "в")) {    
+            if ((key === ("d" || "в"))) {    
 				if (gameMap[charY][charX + 1] === "ground") {
 					gameMap[charY][charX + 1] = "character";
                     gameMap[charY][charX] = "ground";
