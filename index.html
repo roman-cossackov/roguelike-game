@@ -39,9 +39,24 @@
 				font-size: 30px;
 				margin: 0px 0px 5px 0px;
 			}
+			.header {
+				display: inline-block;
+			}
+			.move {
+				display: inline-block;
+				margin: 0;
+				margin-left: 300px
+			}
+			.game-box {
+				display: flex;
+			}
 			.field-box {
 				border: 2px solid #d0d0d0;
-				float: left;
+				width: fit-content;
+				height: fit-content;
+			}
+			.stats-box {
+				margin-left: 10px;
 			}
 			.field {
 				position: relative;
@@ -111,8 +126,17 @@
 		<title>Rogue</title>
 	</head>
 	<body>
-		<h1>Игровое поле</h1>
-		<div class="field-box"><div class="field"></div></div>
+		<h1 class="header">Rogue</h1>
+		<h2 class="move"></h2>
+		<div class="game-box">
+			<div class="field-box">
+				<div class="field"></div>
+			</div>
+			<div class="stats-box">
+				<h3 class="health">Health:</h3>
+				<h3 class="attack">Attack:</h3>
+			</div>
+		</div>
 		<div class="cl"></div>
 		<!--h1>Инвентарь</h1>
 		<div class="inventory-box"><div class="inventory"></div></div-->

@@ -11,7 +11,7 @@ export class Game {
 		}
 	}
 
-	render(gameMap) {
+	render(gameMap, hero, isHeroMove) {
 		let field = document.getElementsByClassName("field")[0];
 		let tiles = field.querySelectorAll("div");
 		for (let r = 0; r < 24; r++) {
@@ -30,5 +30,18 @@ export class Game {
 				}
 			}
 		}
+
+		let health = document.getElementsByClassName("health")[0];
+		health.innerHTML = `Health: ${hero.health}`;
+
+		let attack = document.getElementsByClassName("attack")[0];
+		attack.innerHTML = `Attack: ${hero.attack}`;
+
+		// let move = document.getElementsByClassName("move")[0];
+		// if (isHeroMove) {
+		// 	move.innerHTML = "YOUR MOVE"
+		// } else {
+		// 	move.innerHTML = "ENEMY'S MOVE"
+		// }
 	}
 }
