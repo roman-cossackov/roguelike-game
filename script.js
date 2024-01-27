@@ -1,4 +1,4 @@
-import { DIRECTIONS, TILES, getRandomInt } from "./utils.js";
+import { DIRECTIONS, TILES, getRandomInt, enemyComparing } from "./utils.js";
 import { Game } from "./game.js";
 import { GameMap } from "./gameMap.js";
 import { Hero } from "./hero.js";
@@ -49,7 +49,10 @@ game.render(map.mapArr, hero, isHeroMove);
 
 const moveHero = (event) => {
 	const [newX, newY] = [hero.position.x, hero.position.y];
-	if (["w", "ц"].includes(event.key) && map.mapArr[newY - 1] !== undefined) {
+	if (
+		["w", "ц", "W", "Ц"].includes(event.key) &&
+		map.mapArr[newY - 1] !== undefined
+	) {
 		if (
 			[TILES.ground, TILES.sword, TILES.flask].includes(
 				map.mapArr[newY - 1][newX]
@@ -66,7 +69,7 @@ const moveHero = (event) => {
 			map.mapArr[newY][newX] = TILES.ground;
 			moveEnemies();
 		}
-	} else if (["a", "ф"].includes(event.key)) {
+	} else if (["a", "ф", "A", "Ф"].includes(event.key)) {
 		if (
 			[TILES.ground, TILES.sword, TILES.flask].includes(
 				map.mapArr[newY][newX - 1]
@@ -74,7 +77,6 @@ const moveHero = (event) => {
 		) {
 			if (map.mapArr[newY][newX - 1] === TILES.flask) {
 				hero.health += 5;
-				console.log("+healthj");
 			}
 			if (map.mapArr[newY][newX - 1] === TILES.sword) {
 				hero.attack += 1;
@@ -85,7 +87,7 @@ const moveHero = (event) => {
 			moveEnemies();
 		}
 	} else if (
-		["s", "ы"].includes(event.key) &&
+		["s", "ы", "S", "Ы"].includes(event.key) &&
 		map.mapArr[newY + 1] !== undefined
 	) {
 		if (
@@ -104,7 +106,7 @@ const moveHero = (event) => {
 			map.mapArr[newY][newX] = TILES.ground;
 			moveEnemies();
 		}
-	} else if (["d", "в"].includes(event.key)) {
+	} else if (["d", "в", "D", "В"].includes(event.key)) {
 		if (
 			[TILES.ground, TILES.sword, TILES.flask].includes(
 				map.mapArr[newY][newX + 1]
@@ -123,7 +125,7 @@ const moveHero = (event) => {
 		}
 	} else if (event.key === " ") {
 		if (
-			newY - 1 > 0 &&
+			newY - 1 >= 0 &&
 			newY - 1 < 24 &&
 			newX >= 0 &&
 			newX < 40 &&
@@ -133,21 +135,22 @@ const moveHero = (event) => {
 				(enemy) =>
 					enemy.position.x === newX && enemy.position.y === newY - 1
 			);
+
 			enemy.health -= hero.attack;
 			if (enemy.health <= 0) {
 				map.mapArr[newY - 1][newX] = TILES.ground;
 				enemies = enemies.filter(
-					(enemy) =>
-						enemy.position.x !== newX &&
-						enemy.position.y !== newY - 1
+					(enemy1) => !enemyComparing(enemy1, enemy)
 				);
 			}
 		}
-		if (newY > 0 &&
+		if (
+			newY >= 0 &&
 			newY < 24 &&
 			newX - 1 >= 0 &&
-			newX - 1< 40 &&
-			map.mapArr[newY][newX - 1] === TILES.enemy) {
+			newX - 1 < 40 &&
+			map.mapArr[newY][newX - 1] === TILES.enemy
+		) {
 			const enemy = enemies.find(
 				(enemy) =>
 					enemy.position.x === newX - 1 && enemy.position.y === newY
@@ -156,17 +159,17 @@ const moveHero = (event) => {
 			if (enemy.health <= 0) {
 				map.mapArr[newY][newX - 1] = TILES.ground;
 				enemies = enemies.filter(
-					(enemy) =>
-						enemy.position.x !== newX - 1 &&
-						enemy.position.y !== newY
+					(enemy1) => !enemyComparing(enemy1, enemy)
 				);
 			}
 		}
-		if (newY + 1 > 0 &&
+		if (
+			newY + 1 >= 0 &&
 			newY + 1 < 24 &&
 			newX >= 0 &&
 			newX < 40 &&
-			map.mapArr[newY + 1][newX] === TILES.enemy) {
+			map.mapArr[newY + 1][newX] === TILES.enemy
+		) {
 			const enemy = enemies.find(
 				(enemy) =>
 					enemy.position.x === newX && enemy.position.y === newY + 1
@@ -175,16 +178,18 @@ const moveHero = (event) => {
 			if (enemy.health <= 0) {
 				map.mapArr[newY + 1][newX] = TILES.ground;
 				enemies = enemies.filter(
-					(enemy) =>
-						enemy.position.x !== newX &&
-						enemy.position.y !== newY + 1
+					(enemy1) => !enemyComparing(enemy1, enemy)
 				);
 			}
+			console.log(enemies, enemy);
 		}
-		if (newY > 0 &&
+		if (
+			newY >= 0 &&
 			newY < 24 &&
 			newX + 1 >= 0 &&
-			newX + 1 < 40 &&map.mapArr[newY][newX + 1] === TILES.enemy) {
+			newX + 1 < 40 &&
+			map.mapArr[newY][newX + 1] === TILES.enemy
+		) {
 			const enemy = enemies.find(
 				(enemy) =>
 					enemy.position.x === newX + 1 && enemy.position.y === newY
@@ -193,11 +198,10 @@ const moveHero = (event) => {
 			if (enemy.health <= 0) {
 				map.mapArr[newY][newX + 1] = TILES.ground;
 				enemies = enemies.filter(
-					(enemy) =>
-						enemy.position.x !== newX + 1 &&
-						enemy.position.y !== newY
+					(enemy1) => !enemyComparing(enemy1, enemy)
 				);
 			}
+			console.log(enemies, enemy);
 		}
 		moveEnemies();
 	}

@@ -63,3 +63,12 @@ export const createGameObject = (gameMap, typeOfObject) => {
 
 	return [x, y];
 };
+
+export const enemyComparing = (enemy1, enemy2) => {
+	if (
+		enemy1.position.x === enemy2.position.x &&
+		enemy1.position.y === enemy2.position.y
+	)
+		return true;
+	return false;
+};
