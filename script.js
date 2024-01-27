@@ -16,30 +16,13 @@ map.createGameObjects(TILES.flask, 10);
 
 const hero = new Hero();
 map.addCharacter(hero);
+
 let enemies = [];
-const enemy1 = new Enemy();
-const enemy2 = new Enemy();
-const enemy3 = new Enemy();
-const enemy4 = new Enemy();
-const enemy5 = new Enemy();
-const enemy6 = new Enemy();
-const enemy7 = new Enemy();
-const enemy8 = new Enemy();
-const enemy9 = new Enemy();
-const enemy10 = new Enemy();
-enemies.push(
-	enemy1,
-	enemy2,
-	enemy3,
-	enemy4,
-	enemy5,
-	enemy6,
-	enemy7,
-	enemy8,
-	enemy9,
-	enemy10
-);
-enemies.forEach((enemy) => map.addCharacter(enemy));
+for (let i = 0; i < 10; i++) {
+	const enemy = new Enemy();
+	enemies.push(enemy)
+	map.addCharacter(enemy)
+}
 
 let isWon = false;
 let isLost = false;
@@ -181,7 +164,6 @@ const moveHero = (event) => {
 					(enemy1) => !enemyComparing(enemy1, enemy)
 				);
 			}
-			console.log(enemies, enemy);
 		}
 		if (
 			newY >= 0 &&
