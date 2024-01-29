@@ -20,6 +20,7 @@
 			href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i|Tinos:400,400i&amp;subset=cyrillic"
 			rel="stylesheet"
 		/>
+		<link rel="shortcut icon" href="#">
 		<!-- <script type="text/javascript" src="/shared/3rdparty/jquery/jquery.js" language="javascript1.1"></script> -->
 		<!-- <script src="index.js"></script> -->
 		<style>
@@ -67,7 +68,7 @@
 				grid-template-rows: repeat(40, 1fr);
 			}
 			.field .tile {
-				/* position: absolute; */
+				position: relative;
 				width: 25.6px;
 				height: 26.6px;
 				background-size: 100%;
@@ -121,6 +122,13 @@
 			.cl {
 				clear: both;
 				display: block;
+			}
+			.damage {
+				position: absolute;
+				left: 4px;
+				bottom: 1px;
+				color: red;
+				-webkit-text-stroke: 0.3px black;
 			}
 		</style>
 		<title>Rogue</title>

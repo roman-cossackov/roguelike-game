@@ -20,13 +20,20 @@ map.addCharacter(hero);
 let enemies = [];
 for (let i = 0; i < 10; i++) {
 	const enemy = new Enemy();
-	enemies.push(enemy)
-	map.addCharacter(enemy)
+	enemies.push(enemy);
+	map.addCharacter(enemy);
 }
 
 let isWon = false;
 let isLost = false;
 let isHeroMove = true;
+const collectSound = new Audio("./assets/sounds/collecting.mp3");
+const swordSound = new Audio("./assets/sounds/sword.mp3");
+const footstepSound = new Audio("./assets/sounds/footsteps.mp3");
+footstepSound.volume = 0.3;
+const enemyFootstepSound = new Audio("./assets/sounds/enemy_footsteps.mp3");
+
+const enemyHitSound = new Audio("./assets/sounds/enemy_hit.mp3");
 
 game.render(map.mapArr, hero, isHeroMove);
 
@@ -43,14 +50,18 @@ const moveHero = (event) => {
 		) {
 			if (map.mapArr[newY - 1][newX] === TILES.flask) {
 				hero.health += 5;
-			}
-			if (map.mapArr[newY - 1][newX] === TILES.sword) {
+				collectSound.play();
+			} else if (map.mapArr[newY - 1][newX] === TILES.sword) {
 				hero.attack += 1;
+				collectSound.play();
+			} else {
+				footstepSound.play();
 			}
 			hero.position = { x: newX, y: newY - 1 };
 			map.mapArr[newY - 1][newX] = TILES.hero;
 			map.mapArr[newY][newX] = TILES.ground;
-			moveEnemies();
+			isHeroMove = false;
+			setTimeout(() => moveEnemies(), 1000);
 		}
 	} else if (["a", "ф", "A", "Ф"].includes(event.key)) {
 		if (
@@ -60,14 +71,18 @@ const moveHero = (event) => {
 		) {
 			if (map.mapArr[newY][newX - 1] === TILES.flask) {
 				hero.health += 5;
-			}
-			if (map.mapArr[newY][newX - 1] === TILES.sword) {
+				collectSound.play();
+			} else if (map.mapArr[newY][newX - 1] === TILES.sword) {
 				hero.attack += 1;
+				collectSound.play();
+			} else {
+				footstepSound.play();
 			}
 			hero.position = { x: newX - 1, y: newY };
 			map.mapArr[newY][newX - 1] = TILES.hero;
 			map.mapArr[newY][newX] = TILES.ground;
-			moveEnemies();
+			isHeroMove = false;
+			setTimeout(() => moveEnemies(), 1000);
 		}
 	} else if (
 		["s", "ы", "S", "Ы"].includes(event.key) &&
@@ -80,14 +95,18 @@ const moveHero = (event) => {
 		) {
 			if (map.mapArr[newY + 1][newX] === TILES.flask) {
 				hero.health += 5;
-			}
-			if (map.mapArr[newY + 1][newX] === TILES.sword) {
+				collectSound.play();
+			} else if (map.mapArr[newY + 1][newX] === TILES.sword) {
 				hero.attack += 1;
+				collectSound.play();
+			} else {
+				footstepSound.play();
 			}
 			hero.position = { x: newX, y: newY + 1 };
 			map.mapArr[newY + 1][newX] = TILES.hero;
 			map.mapArr[newY][newX] = TILES.ground;
-			moveEnemies();
+			isHeroMove = false;
+			setTimeout(() => moveEnemies(), 1000);
 		}
 	} else if (["d", "в", "D", "В"].includes(event.key)) {
 		if (
@@ -97,14 +116,18 @@ const moveHero = (event) => {
 		) {
 			if (map.mapArr[newY][newX + 1] === TILES.flask) {
 				hero.health += 5;
-			}
-			if (map.mapArr[newY][newX + 1] === TILES.sword) {
+				collectSound.play();
+			} else if (map.mapArr[newY][newX + 1] === TILES.sword) {
 				hero.attack += 1;
+				collectSound.play();
+			} else {
+				footstepSound.play();
 			}
 			hero.position = { x: newX + 1, y: newY };
 			map.mapArr[newY][newX + 1] = TILES.hero;
 			map.mapArr[newY][newX] = TILES.ground;
-			moveEnemies();
+			isHeroMove = false;
+			setTimeout(() => moveEnemies(), 1000);
 		}
 	} else if (event.key === " ") {
 		if (
@@ -118,8 +141,9 @@ const moveHero = (event) => {
 				(enemy) =>
 					enemy.position.x === newX && enemy.position.y === newY - 1
 			);
-
 			enemy.health -= hero.attack;
+			enemy.showDamage(hero.attack)
+			swordSound.play();
 			if (enemy.health <= 0) {
 				map.mapArr[newY - 1][newX] = TILES.ground;
 				enemies = enemies.filter(
@@ -139,6 +163,8 @@ const moveHero = (event) => {
 					enemy.position.x === newX - 1 && enemy.position.y === newY
 			);
 			enemy.health = enemy.health - hero.attack;
+			enemy.showDamage(hero.attack)
+			swordSound.play();
 			if (enemy.health <= 0) {
 				map.mapArr[newY][newX - 1] = TILES.ground;
 				enemies = enemies.filter(
@@ -158,6 +184,8 @@ const moveHero = (event) => {
 					enemy.position.x === newX && enemy.position.y === newY + 1
 			);
 			enemy.health = enemy.health - hero.attack;
+			enemy.showDamage(hero.attack)
+			swordSound.play();
 			if (enemy.health <= 0) {
 				map.mapArr[newY + 1][newX] = TILES.ground;
 				enemies = enemies.filter(
@@ -177,15 +205,17 @@ const moveHero = (event) => {
 					enemy.position.x === newX + 1 && enemy.position.y === newY
 			);
 			enemy.health = enemy.health - hero.attack;
+			enemy.showDamage(hero.attack)
+			swordSound.play();
 			if (enemy.health <= 0) {
 				map.mapArr[newY][newX + 1] = TILES.ground;
 				enemies = enemies.filter(
 					(enemy1) => !enemyComparing(enemy1, enemy)
 				);
 			}
-			console.log(enemies, enemy);
 		}
-		moveEnemies();
+		isHeroMove = false;
+		setTimeout(() => moveEnemies(), 1000);
 	}
 
 	if (!enemies.length) {
@@ -213,6 +243,8 @@ const moveEnemy = (enemy) => {
 		)
 	) {
 		hero.health -= enemy.attack;
+		hero.showDamage(enemy.attack)
+		enemyHitSound.play();
 		if (hero.health <= 0) {
 			isLost = true;
 		}
@@ -235,13 +267,12 @@ const moveEnemy = (enemy) => {
 };
 
 const moveEnemies = () => {
-	isHeroMove = false;
 	enemies.forEach((enemy, index) => {
 		setTimeout(() => {
-			moveEnemy(enemy);
 			if (index === enemies.length - 1) {
 				isHeroMove = true;
 			}
+			moveEnemy(enemy);
 		}, index * 100);
 	});
 };
