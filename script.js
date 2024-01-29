@@ -30,10 +30,14 @@ let isHeroMove = true;
 const collectSound = new Audio("./assets/sounds/collecting.mp3");
 const swordSound = new Audio("./assets/sounds/sword.mp3");
 const footstepSound = new Audio("./assets/sounds/footsteps.mp3");
-footstepSound.volume = 0.3;
 const enemyFootstepSound = new Audio("./assets/sounds/enemy_footsteps.mp3");
-
 const enemyHitSound = new Audio("./assets/sounds/enemy_hit.mp3");
+
+collectSound.volume = 0.2;
+swordSound.volume = 0.2;
+footstepSound.volume = 0.3;
+enemyFootstepSound.volume = 0.3;
+enemyHitSound.volume = 0.3;
 
 game.render(map.mapArr, hero, isHeroMove);
 
@@ -261,6 +265,7 @@ const moveEnemy = (enemy) => {
 			map.mapArr[yPos][xPos] = TILES.ground;
 			map.mapArr[newY][newX] = TILES.enemy;
 			[enemy.position.x, enemy.position.y] = [newX, newY];
+			enemy.playFootstepSound()
 		}
 		game.render(map.mapArr, hero, isHeroMove);
 	}

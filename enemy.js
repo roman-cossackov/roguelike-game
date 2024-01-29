@@ -35,4 +35,10 @@ export class Enemy {
 		};
 		requestAnimationFrame(animate);
 	}
+
+    playFootstepSound() {
+        const sound = new Audio('./assets/sounds/enemy_footsteps.mp3');
+        sound.volume = 0.2;
+        sound.play()
+    }
 }
